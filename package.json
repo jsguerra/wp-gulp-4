@@ -16,5 +16,18 @@
   "bugs": {
     "url": "https://github.com/jsguerra/wp-gulp-4/issues"
   },
-  "homepage": "https://github.com/jsguerra/wp-gulp-4#readme"
+  "homepage": "https://github.com/jsguerra/wp-gulp-4#readme",
+  "devDependencies": {
+    "autoprefixer": "^9.6.0",
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "gulp-image": "^5.1.0",
+    "gulp-jshint": "^2.1.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "jshint": "^2.10.2"
+  },
+  "dependencies": {}
 }
