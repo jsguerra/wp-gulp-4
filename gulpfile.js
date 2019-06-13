@@ -30,7 +30,17 @@ function jsTask() {
 }
 
 function watchTask() {
-  watch([scssFolder + '{style.scss,rtl.scss}', jsFolder + '*.js'], parallel(scssTask, jsTask));
+  browserSync.init({ 
+		open: 'external',
+		proxy: 'localhost/wp-development',
+		port: 8080
+  });
+  watch([scssFolder + '**/*.css', scssFolder + '**/*.scss'], scssTask);
+  watch([jsFolder + '**/*.js'], jsTask);
+  watch(srcFolder + '**/*').on('change', browserSync.reload);
 }
 
-exports.default = series(watchTask);
+exports.default = series(
+    parallel(scssTask, jsTask),
+    watchTask
+  );
