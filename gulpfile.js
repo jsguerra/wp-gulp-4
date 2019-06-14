@@ -1,12 +1,14 @@
-const themeName = 'theme-name';
+const themeName = 'gcostudios';
 
 // Set variables
 const { src, dest, watch, series, parallel } = require('gulp'),
-      autoprefixer = require('autoprefixer'),
-      browserSync = require('browser-sync').create(),
-      postcss = require('gulp-postcss'),
       sass = require('gulp-sass'),
-      sourcemaps = require('gulp-sourcemaps');
+      cssnano = require("cssnano"),
+      uglify = require('gulp-uglify');
+      postcss = require('gulp-postcss'),
+      autoprefixer = require('autoprefixer'),
+      sourcemaps = require('gulp-sourcemaps'),
+      browserSync = require('browser-sync').create();
 
 // Path variables
 const srcFolder = '../' + themeName + '/',
@@ -18,14 +20,15 @@ function scssTask() {
     .pipe(sourcemaps.init())
     .pipe(sass()
     .on('error', sass.logError))
-    .pipe(postcss([autoprefixer]))
-    .pipe(sourcemaps.write())
+    .pipe(postcss([autoprefixer('last 2 versions', '> 1%'), cssnano()]))
+    .pipe(sourcemaps.write('.'))
     .pipe(dest(srcFolder)
   );
 }
 
 function jsTask() {
   return src([jsFolder + '*.js'])
+    .pipe(uglify())
     .pipe(dest(jsFolder));
 }
 
