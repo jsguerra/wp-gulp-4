@@ -1,8 +1,8 @@
 {
-  "name": "wp-gulp-4",
+  "name": "theme-name",
   "version": "1.0.0",
-  "description": "A WordPress Gulp Setup",
-  "main": "gulpfile.js",
+  "description": "WordPress development project.",
+  "main": "index.php",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,13 +10,12 @@
     "type": "git",
     "url": "git+https://github.com/jsguerra/wp-gulp-4.git"
   },
-  "keywords": [],
   "author": "Jose Guerra",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/jsguerra/wp-gulp-4/issues"
   },
-  "homepage": "https://github.com/jsguerra/wp-gulp-4#readme",
+  "homepage": "https://github.com/jsguerra/wp-gulp-4.git#readme",
   "devDependencies": {
     "autoprefixer": "^9.6.0",
     "browser-sync": "^2.26.7",
@@ -26,6 +25,5 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2"
-  },
-  "dependencies": {}
+  }
 }
