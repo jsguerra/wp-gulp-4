@@ -17,12 +17,16 @@ const srcFolder = '../' + themeName + '/',
 
 function scssTask() {
   return src(scssFolder + '{style.scss,rtl.scss}')
-    .pipe(sourcemaps.init())
-    .pipe(sass()
-    .on('error', sass.logError))
-    .pipe(postcss([autoprefixer('last 2 versions', '> 1%'), cssnano()]))
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest(srcFolder)
+  .pipe(sourcemaps.init())
+  .pipe(sass({
+    outputStyle: 'expanded',
+    indentType: 'tab',
+    indentWidth: '1'
+  })
+  .on('error', sass.logError))
+  .pipe(postcss([autoprefixer('last 2 versions', '> 1%'), cssnano()]))
+  .pipe(sourcemaps.write(scssFolder + 'maps'))
+  .pipe(dest(srcFolder)
   );
 }
 
