@@ -12,9 +12,10 @@ const { src, dest, watch, series, parallel } = require('gulp'),
       browserSync = require('browser-sync').create();
 
 // Path variables
-const srcFolder = '../' + themeName + '/',
+const srcFolder = '../' + themeName + '/src/',
       scssFolder = srcFolder + 'sass/',
-      jsFolder = srcFolder + 'js/';
+      jsFolder = srcFolder + 'js/',
+      destFolder = '../' + themeName + '/';
 
 function scssTask() {
   return src(scssFolder + '{style.scss,rtl.scss}')
@@ -27,7 +28,7 @@ function scssTask() {
     .on('error', sass.logError))
     .pipe(postcss([autoprefixer('last 2 versions', '> 1%'), cssnano()]))
     .pipe(sourcemaps.write(scssFolder + 'maps'))
-    .pipe(dest(srcFolder)
+    .pipe(dest(destFolder)
   );
 }
 
@@ -35,7 +36,7 @@ function jsTask() {
   return src([jsFolder + '*.js'])
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
-    .pipe(dest(jsFolder));
+    .pipe(dest(destFolder + 'js/'));
 }
 
 function watchTask() {
@@ -46,7 +47,7 @@ function watchTask() {
   });
   watch([scssFolder + '**/*.css', scssFolder + '**/*.scss'], scssTask);
   watch([jsFolder + '**/*.js'], jsTask);
-  watch(srcFolder + '**/*').on('change', browserSync.reload);
+  watch(destFolder + '**/*').on('change', browserSync.reload);
 }
 
 exports.default = series(
