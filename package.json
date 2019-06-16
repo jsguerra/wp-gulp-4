@@ -8,20 +8,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jsguerra/wp-gulp-4.git"
+    "url": "git+https://github.com/GCOstudios/wp-gulp.git"
   },
   "author": "Jose Guerra",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/jsguerra/wp-gulp-4/issues"
+    "url": "https://github.com/GCOstudios/wp-gulp.git/issues"
   },
-  "homepage": "https://github.com/jsguerra/wp-gulp-4.git#readme",
+  "homepage": "https://github.com/GCOstudios/wp-gulp.git#readme",
   "devDependencies": {
     "autoprefixer": "^9.6.0",
     "browser-sync": "^2.26.7",
     "cssnano": "^4.1.10",
     "gulp": "^4.0.2",
     "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2"

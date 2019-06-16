@@ -1,10 +1,11 @@
-const themeName = 'gcostudios';
+const themeName = 'subatomic-blocks';
 
 // Set variables
 const { src, dest, watch, series, parallel } = require('gulp'),
       sass = require('gulp-sass'),
       cssnano = require("cssnano"),
-      uglify = require('gulp-uglify');
+      rename = require('gulp-rename'),
+      uglify = require('gulp-uglify'),
       postcss = require('gulp-postcss'),
       autoprefixer = require('autoprefixer'),
       sourcemaps = require('gulp-sourcemaps'),
@@ -17,29 +18,30 @@ const srcFolder = '../' + themeName + '/',
 
 function scssTask() {
   return src(scssFolder + '{style.scss,rtl.scss}')
-  .pipe(sourcemaps.init())
-  .pipe(sass({
-    outputStyle: 'expanded',
-    indentType: 'tab',
-    indentWidth: '1'
-  })
-  .on('error', sass.logError))
-  .pipe(postcss([autoprefixer('last 2 versions', '> 1%'), cssnano()]))
-  .pipe(sourcemaps.write(scssFolder + 'maps'))
-  .pipe(dest(srcFolder)
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+      outputStyle: 'expanded',
+      indentType: 'tab',
+      indentWidth: '1'
+    })
+    .on('error', sass.logError))
+    .pipe(postcss([autoprefixer('last 2 versions', '> 1%'), cssnano()]))
+    .pipe(sourcemaps.write(scssFolder + 'maps'))
+    .pipe(dest(srcFolder)
   );
 }
 
 function jsTask() {
   return src([jsFolder + '*.js'])
     .pipe(uglify())
+    .pipe(rename({suffix: '.min'}))
     .pipe(dest(jsFolder));
 }
 
 function watchTask() {
   browserSync.init({ 
 		open: 'external',
-		proxy: 'localhost/wp-development',
+		proxy: 'genericdev.local',
 		port: 8080
   });
   watch([scssFolder + '**/*.css', scssFolder + '**/*.scss'], scssTask);
