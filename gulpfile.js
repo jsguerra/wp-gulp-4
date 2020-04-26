@@ -1,4 +1,4 @@
-const themeName = 'subatomic-blocks';
+const themeName = 'underscores';
 
 // Set variables
 const { src, dest, watch, series, parallel } = require('gulp'),
@@ -13,12 +13,13 @@ const { src, dest, watch, series, parallel } = require('gulp'),
 
 // Path variables
 const srcFolder = '../' + themeName + '/src/',
-      scssFolder = srcFolder + 'sass/',
-      jsFolder = srcFolder + 'js/',
+      scss = srcFolder + 'sass/',
+      js = srcFolder + 'js/',
       destFolder = '../' + themeName + '/';
 
-function scssTask() {
-  return src(scssFolder + '{style.scss,rtl.scss}')
+// Site Styles
+function styles() {
+  return src(scss + '{style.scss,rtl.scss}')
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'expanded',
@@ -27,30 +28,32 @@ function scssTask() {
     })
     .on('error', sass.logError))
     .pipe(postcss([autoprefixer('last 2 versions', '> 1%'), cssnano()]))
-    .pipe(sourcemaps.write(scssFolder + 'maps'))
-    .pipe(dest(destFolder)
-  );
+    .pipe(sourcemaps.write(scss + 'maps'))
+    .pipe(dest(destFolder))
+    .pipe(browserSync.stream())
 }
 
-function jsTask() {
-  return src([jsFolder + '*.js'])
+// Site javascript
+function scripts() {
+  return src([js + '*.js'])
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(dest(destFolder + 'js/'));
 }
 
+// Watch function
 function watchTask() {
   browserSync.init({ 
 		open: 'external',
-		proxy: 'genericdev.local',
+		proxy: 'default.local',
 		port: 8080
   });
-  watch([scssFolder + '**/*.css', scssFolder + '**/*.scss'], scssTask);
-  watch([jsFolder + '**/*.js'], jsTask);
-  watch(destFolder + '**/*').on('change', browserSync.reload);
+  watch([scss + '**/*.scss'], styles);
+  watch([js + '**/*.js'], scripts).on('change', browserSync.reload);
+  watch(destFolder + '**/*.php').on('change', browserSync.reload);
 }
 
 exports.default = series(
-    parallel(scssTask, jsTask),
+    parallel(styles, scripts),
     watchTask
   );
