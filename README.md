@@ -26,9 +26,10 @@ themes/
 │
 │
 ├── your-theme/
-│   ├── scss/
-│   ├── js/
-│   ├── other theme files & folders
+│   ├── scr/
+|   |   ├── sass/
+|   |   └── js/
+│   ├── theme files & folders
 │   └── style.css
 │
 │
