@@ -1,7 +1,7 @@
 # A WordPress Gulp setup
 > A basic setup to automate WordPress theme development
 
-This gulp setup uses version 4.
+Setup with Gulp 4 and Babel intergrated for use of ECMAscript ES6+
 
 ## Basic Instructions
 1. Place wp-gulp-4 folder in your themes directory
@@ -26,9 +26,10 @@ themes/
 │
 │
 ├── your-theme/
-│   ├── scss/
-│   ├── js/
-│   ├── other theme files & folders
+│   ├── scr/
+|   |   ├── sass/
+|   |   └── js/
+│   ├── theme files & folders
 │   └── style.css
 │
 │
