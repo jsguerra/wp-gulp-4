@@ -44,7 +44,8 @@ function scripts() {
 // Watch function
 function watchTask() {
   browserSync.init({ 
-		open: 'external',
+    open: 'external',
+    host: 'default.local',
 		proxy: 'default.local',
 		port: 8080
   });
