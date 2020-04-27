@@ -4,46 +4,75 @@ const themeName = 'gcostudios';
 const { src, dest, watch, series, parallel } = require('gulp'),
       sass = require('gulp-sass'),
       cssnano = require("cssnano"),
-      uglify = require('gulp-uglify');
+      babel = require('gulp-babel'),
+      rename = require('gulp-rename'),
+      uglify = require('gulp-uglify'),
       postcss = require('gulp-postcss'),
       autoprefixer = require('autoprefixer'),
       sourcemaps = require('gulp-sourcemaps'),
       browserSync = require('browser-sync').create();
 
 // Path variables
-const srcFolder = '../' + themeName + '/',
-      scssFolder = srcFolder + 'sass/',
-      jsFolder = srcFolder + 'js/';
+const srcFolder = '../' + themeName + '/src/',
+      scss = srcFolder + 'sass/',
+      js = srcFolder + 'js/',
+      destFolder = '../' + themeName + '/';
 
-function scssTask() {
-  return src(scssFolder + '{style.scss,rtl.scss}')
+// Site Styles
+function styles() {
+  return src(scss + '{style.scss,rtl.scss}')
     .pipe(sourcemaps.init())
-    .pipe(sass()
+    .pipe(sass({
+      outputStyle: 'expanded',
+      indentType: 'tab',
+      indentWidth: '1'
+    })
     .on('error', sass.logError))
     .pipe(postcss([autoprefixer('last 2 versions', '> 1%'), cssnano()]))
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest(srcFolder)
-  );
+    .pipe(sourcemaps.write(scss + 'maps'))
+    .pipe(dest(destFolder))
+    .pipe(browserSync.stream())
 }
 
-function jsTask() {
-  return src([jsFolder + '*.js'])
+// Site javascript
+function scripts() {
+  return src([js + '*.js'])
+    .pipe(babel({
+      presets: [
+        [
+          '@babel/env',
+          {
+            "useBuiltIns": "usage",
+            "corejs": "3",
+            "targets": {
+              "browsers": [
+                "last 5 versions",
+                "ie >= 8"
+              ]
+            }
+          }
+        ]
+      ]
+    }))
     .pipe(uglify())
-    .pipe(dest(jsFolder));
+    .pipe(rename({suffix: '.min'}))
+    .pipe(dest(destFolder + 'js/'));
 }
 
+// Watch function
 function watchTask() {
   browserSync.init({ 
-		open: 'external',
-		proxy: 'localhost/wp-development',
+    open: 'external',
+    host: 'default.local',
+		proxy: 'default.local',
 		port: 8080
   });
-  watch([scssFolder + '**/*.css', scssFolder + '**/*.scss'], scssTask);
-  watch([jsFolder + '**/*.js'], jsTask);
-  watch(srcFolder + '**/*').on('change', browserSync.reload);
+  watch([scss + '**/*.scss'], styles);
+  watch([js + '**/*.js'], scripts).on('change', browserSync.reload);
+  watch(destFolder + '**/*.php').on('change', browserSync.reload);
 }
 
 exports.default = series(
-    parallel(scssTask, jsTask),
+    parallel(styles, scripts),
     watchTask
   );
