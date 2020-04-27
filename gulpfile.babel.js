@@ -4,6 +4,7 @@ const themeName = 'underscores';
 const { src, dest, watch, series, parallel } = require('gulp'),
       sass = require('gulp-sass'),
       cssnano = require("cssnano"),
+      babel = require('gulp-babel'),
       rename = require('gulp-rename'),
       uglify = require('gulp-uglify'),
       postcss = require('gulp-postcss'),
@@ -36,6 +37,23 @@ function styles() {
 // Site javascript
 function scripts() {
   return src([js + '*.js'])
+    .pipe(babel({
+      presets: [
+        [
+          '@babel/env',
+          {
+            "useBuiltIns": "usage",
+            "corejs": "3",
+            "targets": {
+              "browsers": [
+                "last 5 versions",
+                "ie >= 8"
+              ]
+            }
+          }
+        ]
+      ]
+    }))
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(dest(destFolder + 'js/'));
