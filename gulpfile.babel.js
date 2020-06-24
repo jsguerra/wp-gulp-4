@@ -1,4 +1,4 @@
-const themeName = 'underscores';
+const themeName = 'gcostudios';
 
 // Set variables
 const { src, dest, watch, series, parallel } = require('gulp'),
@@ -63,8 +63,8 @@ function scripts() {
 function watchTask() {
   browserSync.init({ 
     open: 'external',
-    host: 'default.local',
-		proxy: 'default.local',
+    host: 'gcostudios.local',
+		proxy: 'gcostudios.local',
 		port: 8080
   });
   watch([scss + '**/*.scss'], styles);
