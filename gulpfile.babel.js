@@ -63,9 +63,9 @@ function scripts() {
 function watchTask() {
   browserSync.init({ 
     open: 'external',
-    host: 'gcostudios.local',
-		proxy: 'gcostudios.local',
-		port: 8080
+    // host: 'gcostudios.local',
+	proxy: 'gcostudios.local',
+	port: 8080
   });
   watch([scss + '**/*.scss'], styles);
   watch([js + '**/*.js'], scripts).on('change', browserSync.reload);
